@@ -1,0 +1,17 @@
+{
+  "classes" : [
+    {
+      "name": "testone",
+      "variables": [
+        { "name" : "first", "type" : "boolean", "access" : "protected"},
+        { "name" : "second", "type" : "String", "setter" : false, "getter" : false }
+      ]
+    },
+    {
+      "name": "testTwo"
+    },
+    {
+      "name": "testThree"
+    }
+  ]
+}
