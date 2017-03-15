@@ -1,3 +1,6 @@
+"""
+Module doc string to be done.
+"""
 from __future__ import print_function
 import json
 
@@ -6,16 +9,33 @@ PRIMITIVES = ['long', 'int', 'short', 'byte',
 
 
 def uppercase_first_letter(string):
+    """
+    or the given string return the same string but with the
+    first letter converted to upper case.
+    :param string: String to work on
+    :return: String with a first letter as upper case.
+    """
     return string[0].upper() + string[1:]
 
 
-def print_variable(variable):
+def print_variable_declaration(variable):
+    """
+    For a given Variable return the java deceleration text.
+    :param variable: Variable to work on, must be of type Variable
+    :return: The definition string for this variable in a class, "" if not a
+    Variable type.
+    """
     if not isinstance(variable, Variable):
         return ""
     return "    %s %s %s;" % (variable.access, variable.type, variable.name)
 
 
 def print_getter(variable):
+    """
+    For a given variable return the getter java text.
+    :param variable: Variable Of which to create the getter text for.
+    :return: String getter text, "" if not Variable type
+    """
     if not isinstance(variable, Variable):
         return ""
 
@@ -32,6 +52,11 @@ def print_getter(variable):
 
 
 def print_setter(variable):
+    """
+    For a given variable return the setter java text.
+    :param variable: Variable Of which to create the setter text for.
+    :return: String setter text, "" if not Variable type
+    """
     if not isinstance(variable, Variable):
         return ""
     return "    public void set%s(%s %s) {\n " \
@@ -42,6 +67,11 @@ def print_setter(variable):
 
 
 def print_getter_and_setter(variable):
+    """
+    For a given variable return the getter and setter java text.
+    :param variable: Variable of which to create the getter and setter text for.
+    :return: String getter and setter text, "" if not Variable type.
+    """
     if not isinstance(variable, Variable):
         return ""
 
@@ -52,7 +82,12 @@ def print_getter_and_setter(variable):
     return output
 
 
-def print_to_string(current_class):
+def print_class_to_string(current_class):
+    """
+    For a given Class type, create the java toString text.
+    :param current_class: Class type which to write the toString for.
+    :return: String toString java text, "" if not Class type.
+    """
     if not isinstance(current_class, Class):
         return ""
 
@@ -70,7 +105,12 @@ def print_to_string(current_class):
            "    }\n" % return_string
 
 
-def print_equals_to(current_class):
+def print_class_equals_to(current_class):
+    """
+    For a given Class type, create the java equalsTo text.
+    :param current_class: Class type which to write the equals to for
+    :return: String equals to java text, "" if not Class type.
+    """
     if not isinstance(current_class, Class):
         return ""
 
@@ -100,7 +140,12 @@ def print_equals_to(current_class):
            "   }\n" % return_string
 
 
-def print_hash_code(current_class):
+def print_class_hash_code(current_class):
+    """
+    For a given Class type, create the java hasCode text.
+    :param current_class: Class type which to write the hashCode for
+    :return: String hashCode to java text, "" if not Class type.
+    """
     if not isinstance(current_class, Class):
         return ""
 
@@ -116,6 +161,11 @@ def print_hash_code(current_class):
 
 
 def print_class(current_class):
+    """
+    For a given Class type, create the java class text.
+    :param current_class: Class type which to write the class for
+    :return: String class code java text, "" if not Class type.
+    """
     if not isinstance(current_class, Class):
         return ""
 
@@ -124,7 +174,7 @@ def print_class(current_class):
     for variable in current_class.variables:
         variable_declarations = "%s\n%s" \
                                 % (variable_declarations,
-                                   print_variable(variable))
+                                   print_variable_declaration(variable))
         getter_and_setters = "%s\n%s" \
                              % (getter_and_setters,
                                 print_getter_and_setter(variable))
@@ -139,11 +189,15 @@ def print_class(current_class):
            "%s\n" \
            "}" \
            % (current_class.name, variable_declarations, getter_and_setters,
-              print_to_string(current_class), print_equals_to(current_class),
-              print_hash_code(current_class))
+              print_class_to_string(current_class),
+              print_class_equals_to(current_class),
+              print_class_hash_code(current_class))
 
 
 class Variable(object):
+    """
+    Variable Class used to describe a class variable.
+    """
     def __init__(self, input_json):
         self.name = input_json["name"]
         self.type = input_json["type"]
@@ -165,6 +219,9 @@ class Variable(object):
 
 
 class Class(object):
+    """
+    Class Class used to describe a class.
+    """
     def __init__(self, input_json):
         self.name = input_json['name']
         self.variables = []
@@ -181,6 +238,11 @@ class Class(object):
 
 
 def main():
+    """
+    Used to take a given json file to describe java classes and generate the
+    Java code.
+    :return: main methord stuff.
+    """
     with open('example.json') as data_file:
         data = json.load(data_file)
 
